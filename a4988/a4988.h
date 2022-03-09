@@ -34,12 +34,19 @@ void a4988DrvSetMicrosteppingPins(a4988_t * drv, motor_ms_pins_t * microstepping
  * */
 void a4988DrvSetEnablePin(a4988_t * drv, motor_pins_t * enable_pin);
 
-/* @brief Set enable pin to a a4988_t object
+/* @brief Set new resolution value
  * @param drv a4988_t object
  * @param resolition_val Step motor resolution value
  * @return
  * */
 void a4988DrvSetNewResolution(a4988_t * drv, uint8_t resolition_val);
+
+/* @brief Set motor state enable or disable
+ * @param drv a4988_t object
+ * @param state Step motor driver enable or disable state
+ * @return
+ * */
+void a4988DrvSetMotorState(a4988_t * drv, bool state);
 
 #ifdef __cplusplus
 }
