@@ -12,7 +12,7 @@ typedef enum{
 	HALF_STEP		     ,
 	QUARTER_STEP	     ,
 	EIGHTH_STEP		     ,
-	SIXTEENTH_STEP = 0x08
+	SIXTEENTH_STEP = 0x07
 }microstep_resolition;
 
 typedef enum{
