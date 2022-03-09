@@ -7,6 +7,7 @@ extern "C" {
 
 #include "main.h"
 #include "stdint.h"
+#include "stdbool.h"
 
 #include "enum_definations.h"
 
@@ -36,11 +37,13 @@ typedef struct{
 
 typedef struct{
 	TIM_HandleTypeDef * htim;
+	uint32_t htim_channel;
 	motor_ms_pins_t * microstepping_pins;
 	motor_pins_t * dir_pin;
 	motor_state_t driver_state;
 	motor_pins_t * enable_pin;
 	pin_manager_t pins_check;
+	bool is_pwm_work;
 }a4988_t;
 
 #ifdef __cplusplus
