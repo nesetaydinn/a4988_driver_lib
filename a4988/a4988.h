@@ -7,9 +7,10 @@ extern "C" {
 
 
 #include "main.h"
+#include "stdbool.h"
+
 #include "type_definations.h"
 #include "enum_definations.h"
-
 
 /* @brief Create a a4988_t object
  * @param htim Pwm timer channel
