@@ -94,5 +94,15 @@ void a4988DrvSetNewResolution(a4988_t * drv, uint8_t resolition_val){
 }
 
 void a4988DrvSetMotorState(a4988_t * drv, bool state){
-	HAL_GPIO_WritePin(drv->enable_pin->pin, drv->enable_pin->port, state);
+	HAL_GPIO_WritePin(drv->enable_pin->port, drv->enable_pin->pin, state);
+}
+
+void a4988DrvSetSpeedAndDirection(a4988_t * drv, uint8_t speed, bool direction){
+	HAL_GPIO_WritePin(drv->dir_pin->port, drv->dir_pin->pin, direction);
+	drv->is_pwm_work = true;
+	HAL_TIM_PWM_Start_IT(drv->htim, drv->htim_channel);
+	while (true){
+		if(drv->is_pwm_work == false)
+			break;
+	}
 }
