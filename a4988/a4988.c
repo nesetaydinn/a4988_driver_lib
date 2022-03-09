@@ -92,3 +92,7 @@ void a4988DrvSetNewResolution(a4988_t * drv, uint8_t resolition_val){
 			HAL_GPIO_WritePin(drv->microstepping_pins->step_pins[c].port, drv->microstepping_pins->step_pins[c].pin, ((resolition_val >> c) & 0x01));
 	}
 }
+
+void a4988DrvSetMotorState(a4988_t * drv, bool state){
+	HAL_GPIO_WritePin(drv->enable_pin->pin, drv->enable_pin->port, state);
+}
