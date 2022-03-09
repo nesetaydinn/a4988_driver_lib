@@ -17,21 +17,21 @@ extern "C" {
  * @param dir_pin Direction pin
  * @return a4988_t Step motor driver object
  * */
-a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t dir_pin);
+a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin);
 
 /* @brief Set microstepping pins to a a4988_t object
  * @param drv a4988_t object
  * @param microstepping_pins Microstepping pins object
  * @return
  * */
-void a4988DrvSetMicrosteppingPins(a4988_t * drv, motor_ms_pins_t microstepping_pins);
+void a4988DrvSetMicrosteppingPins(a4988_t * drv, motor_ms_pins_t * microstepping_pins);
 
 /* @brief Set enable pin to a a4988_t object
  * @param drv a4988_t object
  * @param enable_pin Motor enable pin
  * @return
  * */
-void a4988DrvSetEnablePin(a4988_t * drv, motor_pins_t enable_pin);
+void a4988DrvSetEnablePin(a4988_t * drv, motor_pins_t * enable_pin);
 
 #ifdef __cplusplus
 }
