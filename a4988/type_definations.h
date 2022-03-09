@@ -29,7 +29,8 @@ typedef struct{
 	motor_ms_pins_t microstepping_pins;
 	motor_pins_t dir_pin;
 	motor_state_t driver_state;
-}motor_pins_t;
+	motor_pins_t enable_pin;
+}a4988_t;
 
 
 #endif
