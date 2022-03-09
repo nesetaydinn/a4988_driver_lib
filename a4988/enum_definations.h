@@ -21,6 +21,11 @@ typedef enum{
 }motor_direction;
 
 typedef enum{
+	STEP_MOTOR_DISABLE = 0x00,
+	STEP_MOTOR_ENABLE
+}motor_state;
+
+typedef enum{
 	STM32_TIM_1 = 0x40012c00,
 	STM32_TIM_2 = 0x40000000,
 	STM32_TIM_3 = 0x40000400,
