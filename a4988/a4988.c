@@ -1,6 +1,6 @@
 #include "a4988.h"
 
-a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin){
+a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, motor_pins_t * pwm_channel_pin, uint32_t tim_channel){
 	a4988_t tmp;
 	tmp.dir_pin = dir_pin;
 
@@ -50,7 +50,7 @@ a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin){
 	sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
 	sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
 	sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-	if (HAL_TIM_PWM_ConfigChannel(htim, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+	if (HAL_TIM_PWM_ConfigChannel(htim, &sConfigOC, tim_channel) != HAL_OK)
 	{
 		Error_Handler();
 	}
