@@ -1,6 +1,10 @@
 #ifndef TYPE_DEFINATIONS_H_
 #define TYPE_DEFINATIONS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "main.h"
 #include "stdint.h"
 
@@ -32,12 +36,15 @@ typedef struct{
 
 typedef struct{
 	TIM_HandleTypeDef * htim;
-	motor_ms_pins_t microstepping_pins;
-	motor_pins_t dir_pin;
+	motor_ms_pins_t * microstepping_pins;
+	motor_pins_t * dir_pin;
 	motor_state_t driver_state;
-	motor_pins_t enable_pin;
+	motor_pins_t * enable_pin;
 	pin_manager_t pins_check;
 }a4988_t;
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
