@@ -25,11 +25,18 @@ typedef struct{
 }motor_state_t;
 
 typedef struct{
+	uint8_t is_set_ms_pins:1;
+	uint8_t is_set_dir_pin:1;
+	uint8_t is_set_enable_pin:1;
+}pin_manager_t;
+
+typedef struct{
 	TIM_HandleTypeDef * htim;
 	motor_ms_pins_t microstepping_pins;
 	motor_pins_t dir_pin;
 	motor_state_t driver_state;
 	motor_pins_t enable_pin;
+	pin_manager_t pins_check;
 }a4988_t;
 
 
