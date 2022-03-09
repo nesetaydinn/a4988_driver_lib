@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-typedef struct{
+typedef enum{
 	FULL_STEP      = 0x00,
 	HALF_STEP		     ,
 	QUARTER_STEP	     ,
@@ -11,7 +11,7 @@ typedef struct{
 	SIXTEENTH_STEP = 0x08
 }microstep_resolition;
 
-typedef struct{
+typedef enum{
 	CW      = 0x00,
 	CCW
 }motor_direction;
