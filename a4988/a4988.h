@@ -15,9 +15,11 @@ extern "C" {
 /* @brief Create a a4988_t object
  * @param htim Pwm timer channel
  * @param dir_pin Direction pin
+ * @param pwm_channel_pin Pwm output pin
+ * @param tim_channel Timer channel value
  * @return a4988_t Step motor driver object
  * */
-a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin);
+a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, motor_pins_t * pwm_channel_pin, uint32_t tim_channel);
 
 /* @brief Set microstepping pins to a a4988_t object
  * @param drv a4988_t object
