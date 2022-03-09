@@ -11,4 +11,10 @@ typedef struct{
 	SIXTEENTH_STEP = 0x08
 }microstep_resolition;
 
+typedef struct{
+	CW      = 0x00,
+	CCW
+}motor_direction;
+
+
 #endif
