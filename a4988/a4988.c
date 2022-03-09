@@ -72,14 +72,23 @@ a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, uint32_t 
 	tmp.pins_check.is_set_enable_pin = false;
 	tmp.pins_check.is_set_ms_pins = false;
 
-
 	return tmp;
 }
 
 void a4988DrvSetMicrosteppingPins(a4988_t * drv, motor_ms_pins_t * microstepping_pins){
 	drv->microstepping_pins = microstepping_pins;
+	drv->pins_check.is_set_ms_pins = true;
 }
 
 void a4988DrvSetEnablePin(a4988_t * drv, motor_pins_t * enable_pin){
 	drv->enable_pin = enable_pin;
+	drv->pins_check.is_set_enable_pin = true;
+
+}
+
+void a4988DrvSetNewResolution(a4988_t * drv, uint8_t resolition_val){
+	if(drv->pins_check.is_set_ms_pins){
+		for (uint8_t c = 0; c < 0x03; c++)
+			HAL_GPIO_WritePin(drv->microstepping_pins->step_pins[c].port, drv->microstepping_pins->step_pins[c].pin, ((resolition_val >> c) & 0x01));
+	}
 }
