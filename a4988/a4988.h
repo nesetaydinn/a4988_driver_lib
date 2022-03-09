@@ -48,6 +48,14 @@ void a4988DrvSetNewResolution(a4988_t * drv, uint8_t resolition_val);
  * */
 void a4988DrvSetMotorState(a4988_t * drv, bool state);
 
+/* @brief Set motor speed and direction
+ * @param drv a4988_t object
+ * @param speed Step motor speed
+ * @param direction Step motor direction
+ * @return
+ * */
+void a4988DrvSetSpeedAndDirection(a4988_t * drv, uint8_t speed, bool direction);
+
 #ifdef __cplusplus
 }
 #endif
