@@ -1,6 +1,10 @@
 #ifndef ENUM_DEFINATIONS_H_
 #define ENUM_DEFINATIONS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "main.h"
 
 typedef enum{
@@ -16,5 +20,8 @@ typedef enum{
 	CCW
 }motor_direction;
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
