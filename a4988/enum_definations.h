@@ -35,7 +35,16 @@ typedef enum{
 	STM32_TIM_12 = 0x40001800,
 	STM32_TIM_13 = 0x40001c00,
 	STM32_TIM_14 = 0x40002000,
-}stm32_tim_channels;
+}stm32_timers;
+
+
+typedef enum{
+	STM32_TIM_CHANNEL_1   = 0x00000000U,
+	STM32_TIM_CHANNEL_2   = 0x00000004U,
+	STM32_TIM_CHANNEL_3   = 0x00000008U,
+	STM32_TIM_CHANNEL_4   = 0x0000000CU,
+	STM32_TIM_CHANNEL_ALL = 0x0000003CU
+}stm32_timer_channels;
 
 #ifdef __cplusplus
 }
