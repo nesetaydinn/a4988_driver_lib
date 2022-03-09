@@ -1,6 +1,6 @@
 #include "a4988.h"
 
-a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, motor_pins_t * pwm_channel_pin, uint32_t tim_channel){
+a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, uint32_t tim_channel){
 	a4988_t tmp;
 	tmp.dir_pin = dir_pin;
 
@@ -72,9 +72,14 @@ a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, motor_pin
 	tmp.pins_check.is_set_enable_pin = false;
 	tmp.pins_check.is_set_ms_pins = false;
 
+
 	return tmp;
 }
-/*
-void a4988DrvSetMicrosteppingPins(a4988_t * drv, motor_ms_pins_t * microstepping_pins);
 
-void a4988DrvSetEnablePin(a4988_t * drv, motor_pins_t * enable_pin);*/
+void a4988DrvSetMicrosteppingPins(a4988_t * drv, motor_ms_pins_t * microstepping_pins){
+	drv->microstepping_pins = microstepping_pins;
+}
+
+void a4988DrvSetEnablePin(a4988_t * drv, motor_pins_t * enable_pin){
+	drv->enable_pin = enable_pin;
+}
