@@ -44,6 +44,7 @@ typedef struct{
 	motor_pins_t * enable_pin;
 	pin_manager_t pins_check;
 	bool is_pwm_work;
+	uint8_t pwm_width;
 }a4988_t;
 
 #ifdef __cplusplus
