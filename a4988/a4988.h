@@ -56,6 +56,20 @@ void a4988DrvSetMotorState(a4988_t * drv, bool state);
  * */
 void a4988DrvSetSpeedAndDirection(a4988_t * drv, uint8_t speed, bool direction);
 
+/* @brief Pwm timer interrupt callback method use in HAL_TIM_PWM_PulseFinishedCallback method
+ * @param drv a4988_t object
+ * @param htim Pwm timer channel
+ * @return
+ * */
+void a4988DrvTimInterruptCb(a4988_t * drv, TIM_HandleTypeDef * htim);
+
+/* @brief Set pwm pulse width
+ * @param drv a4988_t object
+ * @param pulse_width Pwm pulse width
+ * @return
+ * */
+void a4988DrvSetPwmPulseWidth(a4988_t * drv, uint8_t pulse_width);
+
 #ifdef __cplusplus
 }
 #endif
