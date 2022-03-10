@@ -38,7 +38,8 @@ typedef struct{
 typedef struct{
 	TIM_HandleTypeDef * htim;
 	uint32_t htim_channel;
-	uint32_t step_count;
+	int32_t step_count;
+	int32_t step_req;
 	motor_ms_pins_t * microstepping_pins;
 	motor_pins_t * dir_pin;
 	motor_state_t driver_state;
