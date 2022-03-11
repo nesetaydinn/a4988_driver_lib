@@ -99,36 +99,21 @@ void a4988DrvSetMotorState(a4988_t * drv, bool state){
 }
 uint32_t g1, g2;
 uint32_t count_ms = 0;
+bool test_b;
 void a4988DrvSetStepAndDirection(a4988_t * drv, uint32_t step, bool direction){
 	HAL_GPIO_WritePin(drv->dir_pin->port, drv->dir_pin->pin, direction);
 	drv->step_req = step;
 	if(0 != step){
-		uint32_t per_ms = (drv->htim->Instance->PSC +1) * (drv->htim->Instance->ARR +1);
-
-		/*HAL_TIM_PWM_Start_IT(drv->htim, drv->htim_channel);
+		HAL_TIM_PWM_Start(drv->htim, drv->htim_channel);
 		while ((drv->step_count < drv->step_req) && drv->is_pwm_work){
 			drv->step_count++;
 			HAL_Delay(1);
 		}
-		HAL_TIM_PWM_Stop_IT(drv->htim, drv->htim_channel);
-		drv->step_req = 0;
-		drv->step_count = 0;*/
-		drv->step_count = 0;
-		HAL_TIM_PWM_Start(drv->htim, drv->htim_channel);
-		g1 = HAL_GetTick();
-		//while(drv->step_count <= step){
-			while(count_ms <= 1000){
-				drv->htim->Instance->CCR1 = 0;
-				while(((drv->htim->Instance->CNT + 1) * (drv->htim->Instance->PSC +1)) < per_ms);
-				drv->htim->Instance->CCR1 = 1;
-				count_ms++;
-			}
-			//drv->step_count++;
-		//}
-		g2 = HAL_GetTick();
 		HAL_TIM_PWM_Stop(drv->htim, drv->htim_channel);
+		drv->step_req = 0;
+		drv->step_count = 0;
+		drv->htim->Instance->CCR1 = test_b;
 	}
-
 }
 
 void a4988DrvSetPwmPulseWidth(a4988_t * drv, uint8_t pulse_width){
