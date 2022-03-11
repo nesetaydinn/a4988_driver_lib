@@ -3,7 +3,7 @@
 a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, uint32_t tim_channel){
 	a4988_t tmp;
 	tmp.dir_pin = dir_pin;
-
+	tmp.htim_channel = tim_channel;
 	TIM_ClockConfigTypeDef sClockSourceConfig = {0};
 	TIM_MasterConfigTypeDef sMasterConfig = {0};
 	TIM_OC_InitTypeDef sConfigOC = {0};
@@ -50,7 +50,7 @@ a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, uint32_t 
 	sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
 	sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
 	sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-	if (HAL_TIM_PWM_ConfigChannel(htim, &sConfigOC, tim_channel) != HAL_OK)
+	if (HAL_TIM_PWM_ConfigChannel(htim, &sConfigOC, tmp.htim_channel) != HAL_OK)
 	{
 		Error_Handler();
 	}
@@ -71,6 +71,7 @@ a4988_t a4988DrvInit(TIM_HandleTypeDef * htim, motor_pins_t * dir_pin, uint32_t 
 	tmp.pins_check.is_set_dir_pin = true;
 	tmp.pins_check.is_set_enable_pin = false;
 	tmp.pins_check.is_set_ms_pins = false;
+	tmp.step_count = 0;
 
 	return tmp;
 }
@@ -96,13 +97,57 @@ void a4988DrvSetNewResolution(a4988_t * drv, uint8_t resolition_val){
 void a4988DrvSetMotorState(a4988_t * drv, bool state){
 	HAL_GPIO_WritePin(drv->enable_pin->port, drv->enable_pin->pin, state);
 }
-
-void a4988DrvSetSpeedAndDirection(a4988_t * drv, uint8_t speed, bool direction){
+uint32_t g1, g2;
+uint32_t count_ms = 0;
+void a4988DrvSetStepAndDirection(a4988_t * drv, uint32_t step, bool direction){
 	HAL_GPIO_WritePin(drv->dir_pin->port, drv->dir_pin->pin, direction);
-	drv->is_pwm_work = true;
-	HAL_TIM_PWM_Start_IT(drv->htim, drv->htim_channel);
-	while (true){
-		if(drv->is_pwm_work == false)
-			break;
+	drv->step_req = step;
+	if(0 != step){
+		uint32_t per_ms = (drv->htim->Instance->PSC +1) * (drv->htim->Instance->ARR +1);
+
+		/*HAL_TIM_PWM_Start_IT(drv->htim, drv->htim_channel);
+		while ((drv->step_count < drv->step_req) && drv->is_pwm_work){
+			drv->step_count++;
+			HAL_Delay(1);
+		}
+		HAL_TIM_PWM_Stop_IT(drv->htim, drv->htim_channel);
+		drv->step_req = 0;
+		drv->step_count = 0;*/
+		drv->step_count = 0;
+		HAL_TIM_PWM_Start(drv->htim, drv->htim_channel);
+		g1 = HAL_GetTick();
+		//while(drv->step_count <= step){
+			while(count_ms <= 1000){
+				drv->htim->Instance->CCR1 = 0;
+				while(((drv->htim->Instance->CNT + 1) * (drv->htim->Instance->PSC +1)) < per_ms);
+				drv->htim->Instance->CCR1 = 1;
+				count_ms++;
+			}
+			//drv->step_count++;
+		//}
+		g2 = HAL_GetTick();
+		HAL_TIM_PWM_Stop(drv->htim, drv->htim_channel);
 	}
+
+}
+
+void a4988DrvSetPwmPulseWidth(a4988_t * drv, uint8_t pulse_width){
+	drv->pwm_width = pulse_width;
+	
+	if(STM32_TIM_CHANNEL_ALL == (drv->htim_channel & STM32_TIM_CHANNEL_ALL)){
+		drv->htim->Instance->CCR1 = drv->pwm_width;
+		drv->htim->Instance->CCR2 = drv->pwm_width;
+		drv->htim->Instance->CCR3 = drv->pwm_width;
+		drv->htim->Instance->CCR4 = drv->pwm_width;
+	}else{
+		if(STM32_TIM_CHANNEL_1 == (drv->htim_channel & STM32_TIM_CHANNEL_1))
+			drv->htim->Instance->CCR1 = drv->pwm_width;
+		if(STM32_TIM_CHANNEL_2 == (drv->htim_channel & STM32_TIM_CHANNEL_2))
+			drv->htim->Instance->CCR2 = drv->pwm_width;
+		if(STM32_TIM_CHANNEL_3 == (drv->htim_channel & STM32_TIM_CHANNEL_3))
+			drv->htim->Instance->CCR3 = drv->pwm_width;
+		if(STM32_TIM_CHANNEL_4 == (drv->htim_channel & STM32_TIM_CHANNEL_4))
+			drv->htim->Instance->CCR4 = drv->pwm_width;
+	}
+
 }
