@@ -13,10 +13,36 @@
     M_3-.OPTIONAL.-STM32;
     DIR-.REQUIRED.-STM32;
     STEP-.REQUIRED & PWM PIN.-STM32;
-    
-
-
 ```
+    
+## How is working?
+- Include a4988 header file,
+- Create a motor_pins_t object and set pin and port,
+- Create a a4988_t object and initialization,
+- is_pwm_work variable set true in your a4988_t object,
+- Set pulse width on `a4988DrvSetPwmPulseWidth(a4988_t * drv, uint8_t pulse_width); ` method,
+- Set direction and step (on percent for now) `a4988DrvSetStepAndDirection(a4988_t * drv, uint32_t step, bool direction)` method.
+
+```C
+...
+#include "a4988.h"
+...
+int main(void){
+...
+  motor_pins_t dir_pin = {
+		  .pin = drv_pin_name_Pin,
+		  .port = drv_pin_name_GPIO_Port
+  };
+  a4988_t test_drv = a4988DrvInit(&your_tim_handle, &dir_pin, timer_channel);
+  test_drv.is_pwm_work = true;
+  a4988DrvSetPwmPulseWidth(&test_drv, 128);
+  a4988DrvSetStepAndDirection(&test_drv, 25, CW); //Go to %25 step Clockwise
+...
+}
+```
+## Bugs 
+- `a4988DrvSetStepAndDirection(a4988_t * drv, uint32_t step, bool direction)` method not work true, must be going only wanted tour.
+
 ## LICENSE
 MIT License
 
